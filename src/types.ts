@@ -9,7 +9,7 @@ export interface Complaint {
   location: [number, number];
   locationName: string;
   photoUrl: string;
-  status: 'submitted' | 'under-review' | 'assigned' | 'in-progress' | 'completed';
+  status: 'submitted' | 'under-review' | 'assigned' | 'in-progress' | 'completed' | 'closed';
   criticality: 'low' | 'medium' | 'high';
   timeOfComplaint: string;
   assignedWorkers?: string[];

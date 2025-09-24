@@ -79,6 +79,9 @@ export default function ComplaintDetails({ complaint, onBack, department }: Comp
     if (currentComplaint.allowClose) {
       await updateComplaint({ isOpen: false });
     }
+      await updateComplaint({ status: 'closed' });
+      console.log("handleclosecalled")
+
   };
 
   const handleSendCustomMessage = async () => {
@@ -117,6 +120,8 @@ export default function ComplaintDetails({ complaint, onBack, department }: Comp
       case 'assigned': return 'text-blue-600 bg-blue-50';
       case 'in-progress': return 'text-yellow-600 bg-yellow-50';
       case 'completed': return 'text-green-600 bg-green-50';
+      case 'closed': return 'text-orange-600 bg-green-50';
+
       default: return 'text-gray-600 bg-gray-50';
     }
   };
@@ -207,12 +212,16 @@ export default function ComplaintDetails({ complaint, onBack, department }: Comp
                 {currentComplaint.status === 'under-review' && <button onClick={() => setShowWorkerAssignment(true)} className="w-full text-lg bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors">Assign Workers</button>}
                 {currentComplaint.status === 'assigned' && <button onClick={handleStartWork} className="w-full text-lg bg-yellow-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-yellow-600 transition-colors">Start Work</button>}
                 {currentComplaint.status === 'in-progress' && <button onClick={() => updateComplaintStatus('completed')} className="w-full text-lg bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">Mark as Completed</button>}
+                {currentComplaint.status === 'completed' && <button onClick={() => updateComplaintStatus('closed')} className="w-full text-lg bg-green-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-700 transition-colors">Closed</button>}
+
                 {currentComplaint.status === 'completed' && (
                   <div className="flex items-center gap-3">
                     <input type="checkbox" id="allowClose" checked={!!currentComplaint.allowClose} onChange={(e) => updateComplaint({ allowClose: e.target.checked })} className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                    <label htmlFor="allowClose" className="text-lg text-gray-800">Allow case to be closed</label>
+                    {/* <label htmlFor="allowClose" className="text-lg text-gray-800">Allow case to be closed</label> */}
                   </div>
                 )}
+
+
                 <button onClick={handleCloseCase} className="w-full text-lg bg-gray-700 text-white py-3 px-4 rounded-lg font-semibold hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled={!currentComplaint.allowClose}>Close Case</button>
               </div>
             </div>
